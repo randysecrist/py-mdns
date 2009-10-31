@@ -1,0 +1,2 @@
+py-mdns
+  - Simple python api for common zeroconf mdns operations.
