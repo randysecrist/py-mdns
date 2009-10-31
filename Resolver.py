@@ -1,70 +1,50 @@
-#!/usr/bin/python
+import dbus, gobject, avahi
+from dbus import DBusException
+from dbus.mainloop.glib import DBusGMainLoop
 
-import os, sys
+# Looks for iTunes shares
+#TYPE = '_daap._tcp'
 
-try:
-    import avahi, dbus, avahi.ServiceTypeDatabase
-except ImportError, e:
-    print "Sorry, to use this tool you need to have Avahi and python-dbus.\n Error: %s" % e
-    sys.exit(1)
+# Looks for HTTP
+TYPE = '_http._tcp'
+
+# Looks for HTTPS
+#TYPE = '_https._tcp'
+
+def service_resolved(*args):
+    print 'service resolved'
+    print 'name:', args[2]
+    print 'address:', args[7]
+    print 'port:', args[8]
+    print avahi.txt_array_to_string_array(args[9])
+
+def print_error(*args):
+    print 'error_handler'
+    print args[0]
     
-try:
-    from dbus import DBusException
-    import dbus.glib
-except ImportError, e:
-    pass
+def myhandler(interface, protocol, name, stype, domain, flags):
+    print "Found service '%s' type '%s' domain '%s' " % (name, stype, domain)
 
-service_type_browsers = {}
-service_browsers = {}
-service_type_db = avahi.ServiceTypeDatabase.ServiceTypeDatabase()
+    if flags & avahi.LOOKUP_RESULT_LOCAL:
+            # local service, skip
+            pass
 
-def error_msg(msg):
-    print msg
-    
-class EventHandlers():
-    def new_service_type(self, interface, protocol, stype, domain, flags):
-        print "--- New Service Type Called! ---"
-        
-        
-def main():
-    handlers = EventHandlers()
-    # line 234, 235 of avahi-discover
-    # setup dbus
-    bus = dbus.SystemBus()
-    server = dbus.Interface(bus.get_object(avahi.DBUS_NAME, avahi.DBUS_PATH_SERVER), avahi.DBUS_INTERFACE_SERVER)
-    try:
-        # how do we know to limit this range?
-        # which NIC do we listen on?
-        # do we even need to do this?
-        for i in range(1, 8):
-            x = server.GetNetworkInterfaceNameByIndex(i)
-            print x
-    except DBusException, e:
-        print "Intentional Error: \"%s\"" % e
+    server.ResolveService(interface, protocol, name, stype, 
+        domain, avahi.PROTO_UNSPEC, dbus.UInt32(0), 
+        reply_handler=service_resolved, error_handler=print_error)
 
-    domain = "local"
-    try:
-        # browse for services
-        interface = avahi.IF_UNSPEC
-        protocol = avahi.PROTO_UNSPEC
-        b = dbus.Interface(bus.get_object(avahi.DBUS_NAME, server.ServiceTypeBrowserNew(interface, protocol, domain, dbus.UInt32(0))), avahi.DBUS_INTERFACE_SERVICE_TYPE_BROWSER)
+loop = DBusGMainLoop()
 
-        # register for dbus events
-        #b.connect_to_signal('ItemNew', self.new_service_type)
-        # line 168 of avahi-discover
-        # basically - sets up a function pointer to ItemNew signal
-        b.connect_to_signal('ItemNew', handlers.new_service_type)
-        
-        service_type_browsers[(interface, protocol, domain)] = b
-        # do we have to do anything else to start up the listener?
-        print service_type_browsers
+bus = dbus.SystemBus(mainloop=loop)
 
-    except DBusException, e:
-        print "DBusException - %s" % e
-        sys.exit(0)
+server = dbus.Interface( bus.get_object(avahi.DBUS_NAME, '/'),
+        'org.freedesktop.Avahi.Server')
 
-if __name__ == "__main__":
-    main()
-    import time
-    time.sleep(15)
-    print "All Done!"
+sbrowser = dbus.Interface(bus.get_object(avahi.DBUS_NAME,
+        server.ServiceBrowserNew(avahi.IF_UNSPEC,
+            avahi.PROTO_UNSPEC, TYPE, 'local', dbus.UInt32(0))),
+        avahi.DBUS_INTERFACE_SERVICE_BROWSER)
+
+sbrowser.connect_to_signal("ItemNew", myhandler)
+
+gobject.MainLoop().run()
