@@ -6,7 +6,7 @@ Current Status:
   - Resolver is broken, and needs attention.
 
 Project Goals:
-  - Will likely just initially be based from avahi api. Should
+  - Will initially be based from avahi api. Should
     interface what we can to allow for future Bonjour impl.
   - Mostly does mdns publish & lookup.
   - Should be able to resolve a single host name, or a group of names
