@@ -22,7 +22,7 @@ def print_error(*args):
     print 'error_handler'
     print args[0]
     
-def myhandler(interface, protocol, name, stype, domain, flags):
+def handle_service_new(interface, protocol, name, stype, domain, flags):
     print "Found service '%s' type '%s' domain '%s' " % (name, stype, domain)
 
     if flags & avahi.LOOKUP_RESULT_LOCAL:
@@ -32,6 +32,9 @@ def myhandler(interface, protocol, name, stype, domain, flags):
     server.ResolveService(interface, protocol, name, stype, 
         domain, avahi.PROTO_UNSPEC, dbus.UInt32(0), 
         reply_handler=service_resolved, error_handler=print_error)
+
+def handle_service_remove(interface, protocol, name, stype, domain, flags):
+    print "Remove service '%s' type '%s' domain '%s' " % (name, stype, domain)
 
 loop = DBusGMainLoop()
 
@@ -45,6 +48,7 @@ sbrowser = dbus.Interface(bus.get_object(avahi.DBUS_NAME,
             avahi.PROTO_UNSPEC, TYPE, 'local', dbus.UInt32(0))),
         avahi.DBUS_INTERFACE_SERVICE_BROWSER)
 
-sbrowser.connect_to_signal("ItemNew", myhandler)
+sbrowser.connect_to_signal("ItemNew", handle_service_new)
+sbrowser.connect_to_signal("ItemRemove", handle_service_remove)
 
 gobject.MainLoop().run()
