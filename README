@@ -1,2 +1,21 @@
 py-mdns
   - Simple python api for common zeroconf mdns operations.
+
+Current Status:
+  - Publisher is working, however needs work.
+  - Resolver is broken, and needs attention.
+
+Project Goals:
+  - Will likely just initially be based from avahi api. Should
+    interface what we can to allow for future Bonjour impl.
+  - Mostly does mdns publish & lookup.
+  - Should be able to resolve a single host name, or a group of names
+    (tied to a dbus service).
+  - Should hide dbus and avahi calls as much as possible.
+  - Should present a simple API interface to downstream callers.
+  - Should allow for configurable wait time (if possible) while
+    looking up a host.
+  - Should not be directly tied to a GUI API.
+  - API should return multiple lookup in a set or array.
+  - API should allow for some basic filtering of records based upon
+    common use cases of lookup.
