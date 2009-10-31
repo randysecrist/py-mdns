@@ -2,8 +2,8 @@ py-mdns
   - Simple python api for common zeroconf mdns operations.
 
 Current Status:
-  - Publisher is working, however needs work.
-  - Resolver is broken, and needs attention.
+  - Publisher is working, however needs design and refactor.
+  - Resolver is working, however needs design and refactor.
 
 Project Goals:
   - Will initially be based from avahi api. Should
