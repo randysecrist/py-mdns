@@ -4,12 +4,12 @@ import dbus
 __all__ = ["Publisher"]
 
 class Publisher:
-    """A simple class to publish a network service with zeroconf using
-    avahi.
-        
+    """
+    A simple class to publish a network service with zeroconf using avahi.
+
     """
 
-    def __init__(self, name, port, stype="_http._tcp",
+    def __init__(self, name, port, stype="",
                  domain="", host="", text=""):
         self.name = name
         self.stype = stype
@@ -44,7 +44,7 @@ class Publisher:
 
 def test():
     text = ['FOO=A', 'BAR=B']
-    service = Publisher(name="TestService", port=3000, text=text)
+    service = Publisher(name="TestService", port=3000, stype="_http._tcp", text=text)
     service.publish()
     raw_input("Press any key to unpublish the service ")
     service.unpublish()
