@@ -1,0 +1,121 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXFileReference section */
+		25BCB91D113B549A0094F831 /* Publisher.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = Publisher.py; sourceTree = "<group>"; };
+		25BCB91E113B549A0094F831 /* Resolver.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = Resolver.py; sourceTree = "<group>"; };
+		25BCB920113B549A0094F831 /* BonjourPublisher.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = BonjourPublisher.py; sourceTree = "<group>"; };
+		25BCB922113B549A0094F831 /* browse_and_resolve.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = browse_and_resolve.py; sourceTree = "<group>"; };
+		25BCB923113B549A0094F831 /* browse_resolve_query.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = browse_resolve_query.py; sourceTree = "<group>"; };
+		25BCB924113B549A0094F831 /* register.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = register.py; sourceTree = "<group>"; };
+		25BCB925113B549A0094F831 /* pybonjour.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = pybonjour.py; sourceTree = "<group>"; };
+		25BCB927113B549A0094F831 /* test_pybonjour.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_pybonjour.py; sourceTree = "<group>"; };
+		25BCB928113B549A0094F831 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		25BCB929113B549A0094F831 /* setup.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = setup.py; sourceTree = "<group>"; };
+		25BCB92B113B55650094F831 /* mdns.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = mdns.py; sourceTree = "<group>"; };
+		25BCB92C113B62900094F831 /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		25BCB90E113B54500094F831 = {
+			isa = PBXGroup;
+			children = (
+				25BCB91B113B549A0094F831 /* mdns */,
+				25BCB928113B549A0094F831 /* README */,
+				25BCB929113B549A0094F831 /* setup.py */,
+			);
+			sourceTree = "<group>";
+		};
+		25BCB91B113B549A0094F831 /* mdns */ = {
+			isa = PBXGroup;
+			children = (
+				25BCB91C113B549A0094F831 /* avahi */,
+				25BCB91F113B549A0094F831 /* bonjour */,
+				25BCB92B113B55650094F831 /* mdns.py */,
+				25BCB92C113B62900094F831 /* __init__.py */,
+			);
+			path = mdns;
+			sourceTree = "<group>";
+		};
+		25BCB91C113B549A0094F831 /* avahi */ = {
+			isa = PBXGroup;
+			children = (
+				25BCB91D113B549A0094F831 /* Publisher.py */,
+				25BCB91E113B549A0094F831 /* Resolver.py */,
+			);
+			path = avahi;
+			sourceTree = "<group>";
+		};
+		25BCB91F113B549A0094F831 /* bonjour */ = {
+			isa = PBXGroup;
+			children = (
+				25BCB920113B549A0094F831 /* BonjourPublisher.py */,
+				25BCB921113B549A0094F831 /* examples */,
+				25BCB925113B549A0094F831 /* pybonjour.py */,
+				25BCB927113B549A0094F831 /* test_pybonjour.py */,
+			);
+			path = bonjour;
+			sourceTree = "<group>";
+		};
+		25BCB921113B549A0094F831 /* examples */ = {
+			isa = PBXGroup;
+			children = (
+				25BCB922113B549A0094F831 /* browse_and_resolve.py */,
+				25BCB923113B549A0094F831 /* browse_resolve_query.py */,
+				25BCB924113B549A0094F831 /* register.py */,
+			);
+			path = examples;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		25BCB910113B54500094F831 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 25BCB913113B54500094F831 /* Build configuration list for PBXProject "py-mdns" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 0;
+			mainGroup = 25BCB90E113B54500094F831;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		25BCB911113B54500094F831 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		25BCB912113B54500094F831 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		25BCB913113B54500094F831 /* Build configuration list for PBXProject "py-mdns" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				25BCB911113B54500094F831 /* Debug */,
+				25BCB912113B54500094F831 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 25BCB910113B54500094F831 /* Project object */;
+}
