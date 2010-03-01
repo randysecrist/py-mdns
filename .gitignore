@@ -1,0 +1,5 @@
+# Ignore XCode's build dir
+build
+
+# Ignore XCode's user files
+py-mdns.xcodeproj/randy*
