@@ -66,15 +66,35 @@ __revision__ = int('$Revision: 6125 $'.split()[1])
 
 # Public API
 # TODO:
-#    Determine which backend to load.
-#      avahi, bonjour
+#    Fix module import semantics.
+#      add unit tests
 #    Load backend.
 #    Plug it in.
 #    Return
 #    Test Cases
 #    Documentation & Examples
+
+mdns = None
+
 def publish():
     print "Publish Info"
 
 def resolve():
     print "Resolve Info"
+	
+def __determine_backend():
+    import sys
+    platform = sys.platform
+    backend = None
+    if platform == 'darwin':
+        backend = 'bonjour'
+    elif platform.startswith('linux'):
+        backend = 'avahi'
+    else:
+        raise NotImplementedError, "py-mdns is only supported on OS X and Linux."
+
+    assert (backend != None)
+    return backend
+
+def __load_backend(backend_name):
+    pass

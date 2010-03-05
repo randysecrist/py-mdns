@@ -27,3 +27,5 @@
 """A package for publishing and resolving DNS-SD information."""
 
 __version__ = "1.0.0"
+
+from mdns import *
