@@ -62,7 +62,7 @@ __all__ = [ "mdns" ]
 
 __author__   = 'Randy Secrist <randy.secrist@gmail.com>'
 __version__  = '1.0.0'
-__revision__ = int('$Revision: 6125 $'.split()[1])
+__revision__ = int('$Revision: 1 $'.split()[1])
 
 # Public API
 # TODO:
@@ -76,6 +76,10 @@ __revision__ = int('$Revision: 6125 $'.split()[1])
 
 mdns = None
 
+import imputil
+import os
+import sys
+
 def publish():
     print "Publish Info"
 
@@ -83,7 +87,6 @@ def resolve():
     print "Resolve Info"
 	
 def __determine_backend():
-    import sys
     platform = sys.platform
     backend = None
     if platform == 'darwin':
@@ -97,4 +100,31 @@ def __determine_backend():
     return backend
 
 def __load_backend(backend_name):
-    pass
+    if os.access(backend_name, os.R_OK):
+        path = backend_name
+        
+    # append the location of the library to the python path so we can import
+    sys.path.insert(0, path)
+    
+    b_interface_name = 'interface'
+    
+    # find the module
+    try:
+        exists = imputil.imp.find_module(b_interface_name)
+    except:
+        print "module import of %s failed: %s" % (b_interface_name, sys.exc_type)
+    
+    # load the module
+    retval = None
+    try:
+        loaded = imputil.imp.load_module(b_interface_name, exists[0], exists[1], exists[2])
+        retval = loaded
+    except:
+        print "module load of %s failed: %s" % (b_interface_name, sys.exc_type)
+        
+    return retval
+        
+if __name__ == "__main__":
+    backend_name = __determine_backend()
+    print backend_name
+    backend = __load_backend(backend_name)
