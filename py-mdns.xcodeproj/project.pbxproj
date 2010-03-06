@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		257985DC1142B57C005E1B86 /* interface.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = interface.py; sourceTree = "<group>"; };
 		25BCB91D113B549A0094F831 /* Publisher.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = Publisher.py; sourceTree = "<group>"; };
 		25BCB91E113B549A0094F831 /* Resolver.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = Resolver.py; sourceTree = "<group>"; };
 		25BCB920113B549A0094F831 /* BonjourPublisher.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = BonjourPublisher.py; sourceTree = "<group>"; };
@@ -17,7 +18,7 @@
 		25BCB927113B549A0094F831 /* test_pybonjour.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = test_pybonjour.py; sourceTree = "<group>"; };
 		25BCB928113B549A0094F831 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		25BCB929113B549A0094F831 /* setup.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = setup.py; sourceTree = "<group>"; };
-		25BCB92B113B55650094F831 /* mdns.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = mdns.py; sourceTree = "<group>"; };
+		25BCB92B113B55650094F831 /* mdns.py */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = text.script.python; path = mdns.py; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; };
 		25BCB92C113B62900094F831 /* __init__.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = __init__.py; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -58,6 +59,7 @@
 				25BCB921113B549A0094F831 /* examples */,
 				25BCB925113B549A0094F831 /* pybonjour.py */,
 				25BCB927113B549A0094F831 /* test_pybonjour.py */,
+				257985DC1142B57C005E1B86 /* interface.py */,
 			);
 			path = bonjour;
 			sourceTree = "<group>";
