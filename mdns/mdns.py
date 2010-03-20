@@ -64,15 +64,14 @@ __author__   = 'Randy Secrist <randy.secrist@gmail.com>'
 __version__  = '1.0.0'
 __revision__ = int('$Revision: 1 $'.split()[1])
 
-# Public API
+
 # TODO:
-#    Fix module import semantics.
-#      add unit tests
-#    Load backend.
-#    Plug it in.
-#    Return
-#    Test Cases
+#    Implement Backends
+#    Unit Tests
 #    Documentation & Examples
+#    Build Scripts -> Linux (RPM), Mac
+
+# Public API
 
 mdns = None
 
@@ -80,51 +79,70 @@ import imputil
 import os
 import sys
 
-def publish():
-    print "Publish Info"
+class publisher(object):
+    def __init__(self):
+        self.loader = loader()
+        self.backend = self.loader.get_backend()
 
-def resolve():
-    print "Resolve Info"
-	
-def __determine_backend():
-    platform = sys.platform
-    backend = None
-    if platform == 'darwin':
-        backend = 'bonjour'
-    elif platform.startswith('linux'):
-        backend = 'avahi'
-    else:
-        raise NotImplementedError, "py-mdns is only supported on OS X and Linux."
+    def __do_publish(self):
+        print "Publish Info"
 
-    assert (backend != None)
-    return backend
+class resolver(object):
+    def __init__(self):
+        self.loader = loader()
+        self.backend = self.loader.get_backend()
+        
+    def __do_resolve(self):
+        print "Resolve Info"
 
-def __load_backend(backend_name):
-    if os.access(backend_name, os.R_OK):
-        path = backend_name
+class loader(object):
+    def get_backend(self):
+        backend_name = self.__determine_backend()
+        backend = self.__load_backend(backend_name)
+        return backend
         
-    # append the location of the library to the python path so we can import
-    sys.path.insert(0, path)
-    
-    b_interface_name = 'interface'
-    
-    # find the module
-    try:
-        exists = imputil.imp.find_module(b_interface_name)
-    except:
-        print "module import of %s failed: %s" % (b_interface_name, sys.exc_type)
-    
-    # load the module
-    retval = None
-    try:
-        loaded = imputil.imp.load_module(b_interface_name, exists[0], exists[1], exists[2])
-        retval = loaded
-    except:
-        print "module load of %s failed: %s" % (b_interface_name, sys.exc_type)
+    def __determine_backend(self):
+        platform = sys.platform
+        backend = None
+        if platform == 'darwin':
+            backend = 'bonjour'
+        elif platform.startswith('linux'):
+            backend = 'avahi'
+        else:
+            raise NotImplementedError, "py-mdns is only supported on OS X and Linux."
+
+        assert (backend != None)
+        return backend
+
+    def __load_backend(self, backend_name):
+        if os.access(backend_name, os.R_OK):
+            path = backend_name
+        else:
+            path = __append_sys_path(backend_name)
+            
+        # append the location of the library to the python path so we can import
+        sys.path.insert(0, path)
         
-    return retval
+        b_interface_name = 'interface'
         
-if __name__ == "__main__":
-    backend_name = __determine_backend()
-    print backend_name
-    backend = __load_backend(backend_name)
+        # find the module
+        try:
+            exists = imputil.imp.find_module(b_interface_name)
+        except:
+            print "module import of %s failed: %s" % (b_interface_name, sys.exc_type)
+        
+        # load the module
+        retval = None
+        try:
+            loaded = imputil.imp.load_module(b_interface_name, exists[0], exists[1], exists[2])
+            retval = loaded
+        except:
+            print "module load of %s failed: %s" % (b_interface_name, sys.exc_type)
+            
+        return retval
+        
+    def __append_sys_path(self, backend):
+        BACKEND_PATH = '/pymdns/mdns/'
+        from distutils.sysconfig import get_python_lib
+        return get_python_lib() + BACKEND_PATH + backend
+
