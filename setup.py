@@ -25,7 +25,7 @@
 
 
 
-from distutils.core import setup
+from distutils.core import setup, Command, Extension
 import mdns
 
 # Grab the description from the package's doc string
@@ -50,6 +50,6 @@ setup(
         'Programming Language :: Python',
         'Topic :: System :: Distributed Computing',
         'Topic :: System :: Networking',
-        ],
-    py_modules = ['mdns'],
-    )
+    ],
+    packages = ['mdns','mdns.avahi','mdns.bonjour'],
+)
