@@ -46,7 +46,8 @@ def test():
     text = ['FOO=A', 'BAR=B']
     service = Publisher(name="TestService", port=3000, stype="_http._tcp", text=text)
     service.publish()
-    raw_input("Press any key to unpublish the service ")
+    input = raw_input("Press any key to unpublish the service --> ")
+    print 'Input: %s detected - exiting ...' % input
     service.unpublish()
 
 

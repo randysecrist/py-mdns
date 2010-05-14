@@ -96,10 +96,10 @@ class resolver(object):
         print "Resolve Info"
 
 class loader(object):
-    def get_backend(self):
+    def get_backend(self, pre_path=None):
         backend_name = self.__determine_backend()
-        backend = self.__load_backend(backend_name)
-        return backend
+        backend = self.__load_backend(backend_name, pre_path)
+        return backend.Backend()
         
     def __determine_backend(self):
         platform = sys.platform
@@ -114,14 +114,17 @@ class loader(object):
         assert (backend != None)
         return backend
 
-    def __load_backend(self, backend_name):
+    def __load_backend(self, backend_name, pre_path=None):
         if os.access(backend_name, os.R_OK):
             path = backend_name
+        elif os.access(pre_path + backend_name, os.R_OK):
+            path = pre_path + backend_name
         else:
-            path = __append_sys_path(backend_name)
-            
+            path = self.__append_sys_path(backend_name)
+
         # append the location of the library to the python path so we can import
         sys.path.insert(0, path)
+        print sys.path
         
         b_interface_name = 'interface'
         
@@ -141,8 +144,7 @@ class loader(object):
             
         return retval
         
-    def __append_sys_path(self, backend):
-        BACKEND_PATH = '/pymdns/mdns/'
+    def __append_sys_path(self, backend, parent='/mdns/'):
         from distutils.sysconfig import get_python_lib
-        return get_python_lib() + BACKEND_PATH + backend
+        return get_python_lib() + parent + backend
 
