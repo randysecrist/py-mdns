@@ -2,8 +2,20 @@
 class servicegroup:
     def __init__(self, replace_wildcards=False):
         self.__name = None
-        self.__services = None
+        self.__services = []
         self.__replace_wildcards = replace_wildcards
+
+    @property
+    def name(self):
+        return self.__name
+    
+    @property
+    def replace(self):
+        return self.__replace_wildcards
+    
+    @property
+    def services(self):
+        return self.__services
 
 class service:
     def __init__(self, svc_type, svc_port, svc_name, sysname, state):

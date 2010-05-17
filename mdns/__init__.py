@@ -91,6 +91,9 @@ class publisher(object):
         '''
         return self.backend.publish(service)
     
+    def publish_group(self, servicegroup):
+        return self.backend.publish_group(servicegroup)
+    
     def remove(self, service):
         '''
         Retracts the process which is publishing the service information.
