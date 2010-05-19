@@ -5,9 +5,28 @@ from string import Template
 from avahi.ServiceTypeDatabase import ServiceTypeDatabase
 
 class Backend():
+    __file_location = '/etc/avahi/services/cks.service'
     def types(self):
         db = ServiceTypeDatabase()
         return db.items()
+
+    def load_group(self):
+        doc = libxml2.parseFile(__file_location)
+        ctx = doc.xpathNewContext()
+
+        sg = servicegroup()
+
+        name_node = ctx.xpathEval('//service-group/name')[0]
+        sg.name = name_node.content
+        sg.replace = name_node.getProp('replace-wildcards')
+
+        service_nodes = ctx.xpathEval('//service-group/service')
+        for node in service_nodes:
+            print node.content
+
+        doc.freeDoc()
+        ctx.xpathFreeContext()
+        return sg
     
     def publish_group(self, servicegroup):
         libxml2.debugMemory(1)
@@ -51,10 +70,8 @@ class Backend():
 
         rtnval = -1
         try:
-            #file_loc = '/home/de041669/test.xml'
-            file_loc = '/etc/avahi/services/cks.service'
-            outfile = open(file_loc, 'w')
-            rtnval = doc.saveFormatFile(file_loc, format=libxml2.XML_SAVE_FORMAT)
+            outfile = open(__file_location, 'w')
+            rtnval = doc.saveFormatFile(__file_location, format=libxml2.XML_SAVE_FORMAT)
             #f = StringIO.StringIO()
             #buf = libxml2.createOutputBuffer(f, 'UTF-8')
             #doc.saveFormatFileTo(buf, 'UTF-8', 1)
