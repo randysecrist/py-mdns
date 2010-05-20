@@ -18,7 +18,7 @@ class servicegroup:
         return self.__services
 
 class service:
-    def __init__(self, svc_type, svc_port, svc_name, sysname, state):
+    def __init__(self, svc_type=None, svc_port=None, svc_name=None, sysname=None, state=None):
         # Required
         self.__type = svc_type
         self.__port = svc_port
