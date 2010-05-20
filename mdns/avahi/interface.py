@@ -4,6 +4,8 @@ import StringIO
 from string import Template
 from avahi.ServiceTypeDatabase import ServiceTypeDatabase
 
+from ecis.topology.mdns.service import servicegroup, service
+
 class Backend():
     __file_location = '/etc/avahi/services/cks.service'
     def types(self):
@@ -11,25 +13,37 @@ class Backend():
         return db.items()
 
     def load_group(self):
-        doc = libxml2.parseFile(__file_location)
+        doc = libxml2.parseFile(self.__file_location)
         ctx = doc.xpathNewContext()
 
         sg = servicegroup()
 
         name_node = ctx.xpathEval('//service-group/name')[0]
         sg.name = name_node.content
-        sg.replace = name_node.getProp('replace-wildcards')
+        sg.replace = name_node.hasProp('replace-wildcards').content
 
         service_nodes = ctx.xpathEval('//service-group/service')
         for node in service_nodes:
-            print node.content
-
+            ctx.setContextNode(node)
+            s = service()
+            sg.services.append(s)
+            s.type = ctx.xpathEval('type')[0].content
+            s.port = ctx.xpathEval('port')[0].content
+            record_nodes = ctx.xpathEval('txt-record')
+            
+            #print type + "::" +  port + "::" + str(len(record_nodes))
+            for r_node in record_nodes:
+                node_str = r_node.content
+                key = node_str[0:node_str.find('=')]
+                value = node_str[node_str.find('=') + 1:len(node_str)]
+                s.txt[key] = value
+       
         doc.freeDoc()
         ctx.xpathFreeContext()
         return sg
     
     def publish_group(self, servicegroup):
-        libxml2.debugMemory(1)
+        #libxml2.debugMemory(1)
         
         input = '<!DOCTYPE service-group SYSTEM "avahi-service.dtd"><!-- See avahi.service(5) for more information about this configuration file --><service-group></service-group>'
         
@@ -70,8 +84,8 @@ class Backend():
 
         rtnval = -1
         try:
-            outfile = open(__file_location, 'w')
-            rtnval = doc.saveFormatFile(__file_location, format=libxml2.XML_SAVE_FORMAT)
+            outfile = open(self.__file_location, 'w')
+            rtnval = doc.saveFormatFile(self.__file_location, format=libxml2.XML_SAVE_FORMAT)
             #f = StringIO.StringIO()
             #buf = libxml2.createOutputBuffer(f, 'UTF-8')
             #doc.saveFormatFileTo(buf, 'UTF-8', 1)
