@@ -1,14 +1,14 @@
 import os
 
-class Backend():
+class Backend:
     def types(self):
         print "NOT IMPLEMENTED"
-        pass
     
-    def publish(self, service):
+    def load_group(self, alternate_location=None):
         print "NOT IMPLEMENTED"
-        pass
     
-    def remove(self, service):
+    def save_group(self, alternate_location=None):
         print "NOT IMPLEMENTED"
-        pass
+
+    def remove_group(self, alternate_location=None):
+        print "NOT IMPLEMENTED"

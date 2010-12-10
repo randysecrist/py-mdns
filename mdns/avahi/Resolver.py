@@ -36,6 +36,12 @@ def handle_service_new(interface, protocol, name, stype, domain, flags):
 def handle_service_remove(interface, protocol, name, stype, domain, flags):
     print "Remove service '%s' type '%s' domain '%s' " % (name, stype, domain)
 
+
+def __handle_all_for_now():
+    print "All"
+    thread.quit()
+    print " Done!"
+
 loop = DBusGMainLoop()
 
 bus = dbus.SystemBus(mainloop=loop)
@@ -50,5 +56,7 @@ sbrowser = dbus.Interface(bus.get_object(avahi.DBUS_NAME,
 
 sbrowser.connect_to_signal("ItemNew", handle_service_new)
 sbrowser.connect_to_signal("ItemRemove", handle_service_remove)
+sbrowser.connect_to_signal("AllForNow", __handle_all_for_now)
 
-gobject.MainLoop().run()
+thread = gobject.MainLoop()
+thread.run()

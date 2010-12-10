@@ -83,31 +83,35 @@ class publisher(object):
     def __init__(self):
         self.loader = loader()
         self.backend = self.loader.get_backend()
-        
-    def publish(self, service):
-        '''
-        Spawns a process (or interacts with a existing process) which
-        publishes the service information.
-        '''
-        return self.backend.publish(service)
     
-    def publish_group(self, servicegroup):
-        return self.backend.publish_group(servicegroup)
+    def save_group(self, servicegroup):
+        '''
+        Spawns a process (or interacts with an existing process) which
+        publishes service group information.
+        '''
+        return self.backend.save_group(servicegroup)
+
+    def load_group(self):
+        '''
+        Returns information currently being published by underlying process.
+        '''
+        return self.backend.load_group()
     
-    def remove(self, service):
+    def remove_group(self):
         '''
-        Retracts the process which is publishing the service information.
+        Retracts published information from the underlying process.
         '''
-        return self.backend.remove(service)
+        return self.backend.remove_group()
 
 class resolver(object):
     def __init__(self):
         self.loader = loader()
         self.backend = self.loader.get_backend()
         
-    def __do_resolve(self):
-        print "Resolve Info"
-
+    def query(self, type=None):
+        results = self.backend.query(type)
+        return results
+        
 class loader(object):
     def get_backend(self, pre_path=None):
         backend_name = self.__determine_backend()

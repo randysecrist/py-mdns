@@ -18,13 +18,14 @@ class servicegroup:
         return self.__services
 
 class service:
-    def __init__(self, svc_type=None, svc_port=None, svc_name=None, sysname=None, state=None):
+    def __init__(self, **kwargs):
         # Required
-        self.__type = svc_type
-        self.__port = svc_port
-        self.__localized_name = svc_name
-        self.__sysname = sysname
-        self.__state = state
+        if len(kwargs) > 0:
+            self.__type = kwargs['type']
+            self.__port = kwargs['port']
+            self.__localized_name = kwargs['name']
+            self.__sysname = kwargs['sysname']
+            self.__state = kwargs['state']
         
         # Optional
         self.__protocol = 'ipv4'
@@ -56,7 +57,7 @@ class service:
 
     @property
     def port(self):
-        return self.__port;
+        return int(self.__port);
     
     @property
     def protocol(self):
