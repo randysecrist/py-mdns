@@ -12,3 +12,6 @@ class Backend:
 
     def remove_group(self, alternate_location=None):
         print "NOT IMPLEMENTED"
+
+    def query(self, type=None):
+        print "NOT IMPLEMENTED"
